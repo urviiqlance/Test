@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import ObjectMapper
-import Alamofire
 
 class HomeVC: UIViewController {
     
@@ -17,7 +15,7 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var tblView: UITableView!
     
-    var arrHomeData = [[String:Any]]()
+    var arrHomeData : Home?
     var arrFilterData = [TestUser]()
     var arrCoreHome = [TestUser]()
     var isFiltered = false
@@ -53,20 +51,27 @@ class HomeVC: UIViewController {
     //MARK:-  Functions
     func callApi(page: Int,isLoader: Bool)  {
         
-        if isLoader{
+        if isLoader {
             CustomLoader.sharedInstance.showActivityIndicatory(vc: self)
         }
         
-        APIManager.getAPI(url: Constant.USER_DATA + "\(page)",isFalg: true) { isSuccess, message, reponse in
-            self.arrHomeData = reponse
-            
-            for (i, _) in self.arrHomeData.enumerated() {
-                print("dsfdsf",self.arrHomeData[i]["avatar_url"] ?? "")
-                let dict :  [String : String]  = ["name" : "\(self.arrHomeData[i]["login"] ?? "")", "followers" : "\(self.arrHomeData[i]["followers"] ?? "")" , "following": "\(self.arrHomeData[i]["following"] ?? "")" , "blog": "\(self.arrHomeData[i]["blog"] ?? "")","company": "\(self.arrHomeData[i]["company"] ?? "")","detail": "\(self.arrHomeData[i]["node_id"] ?? "")","avatar_url": "\(self.arrHomeData[i]["avatar_url"] ?? "")","notes": "\(self.arrHomeData[i]["notes"] ?? "write note")"]
+        APIManager.sharedInstance.parseAPIKeyWithURLGET(String(format: Constant.USER_DATA + "\(page)"), isFalg: true, showLoadingIndicator: true, ModelType: Home.self) { (response) in
+
+            print("trtrtyrtytyuyiu",response)
+            switch response {
+            case .success(let data):
+        
+                self.arrHomeData = data
+                let dict :  [String : String]  = ["name" : "\(self.arrHomeData?.login ?? "")", "followers" : "\(self.arrHomeData?.followers ?? 0)" , "following": "\(self.arrHomeData?.following ?? 0)" , "blog": "\(self.arrHomeData?.blog ?? "")","company": "\(self.arrHomeData?.company ?? "")","detail": "\(self.arrHomeData?.nodeID ?? "")","avatar_url": "\(self.arrHomeData?.avatarURL ?? "")","notes": "write note"]
                 DatabaseHelper.shareInstence.save(object: dict)
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                Utility.shared.showAlertWithBackAction(vc: self, strTitle: "Something went wrong!", StrMessage: error.localizedDescription, handler: { (value) in
+                })
+                break
             }
-            
-            
+
             DispatchQueue.main.async {
                 self.tblView.layoutIfNeeded()
                 self.arrCoreHome = DatabaseHelper.shareInstence.getData()
@@ -75,8 +80,6 @@ class HomeVC: UIViewController {
                 self.spinner.stopAnimating()
                 CustomLoader.sharedInstance.hideActivityIndicator()
             }
-            self.spinner.stopAnimating()
-            CustomLoader.sharedInstance.hideActivityIndicator()
         }
     }
     
@@ -109,16 +112,16 @@ extension HomeVC: UITableViewDataSource {
         }
         
         let lastSectionIndex = tableView.numberOfSections - 1
-            let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-            if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-               // print("this is the last cell")
-                
-                spinner.startAnimating()
-                spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-
-                self.tblView.tableFooterView = spinner
-                self.tblView.tableFooterView?.isHidden = false
-            }
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            // print("this is the last cell")
+            
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            
+            self.tblView.tableFooterView = spinner
+            self.tblView.tableFooterView?.isHidden = false
+        }
     }
 }
 

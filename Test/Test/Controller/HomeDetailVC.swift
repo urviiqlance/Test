@@ -26,7 +26,7 @@ class HomeDetailVC: UIViewController {
     var strName = String()
     var index = Int()
     
-    var arrHomeDataDetail = [[String:Any]]()
+    var arrHomeDataDetail : Home?
     var arrCoreHomeDetail = [TestUser]()
     
     //MARK:- 
@@ -35,8 +35,7 @@ class HomeDetailVC: UIViewController {
         
         self.lblTitle.text = strName
         self.arrCoreHomeDetail.removeAll()
-        self.arrHomeDataDetail.removeAll()
-        self.callApiDetail(strName: strName)
+        self.callApiDetail(strName: strName, isLoader: true)
         
     }
     
@@ -48,56 +47,72 @@ class HomeDetailVC: UIViewController {
         super.viewWillAppear(true)
     }
     
-    func callApiDetail(strName: String)  {
+    func callApiDetail(strName: String,isLoader: Bool)  {
         
-        CustomLoader.sharedInstance.showActivityIndicatory(vc: self)
+        if isLoader {
+            CustomLoader.sharedInstance.showActivityIndicatory(vc: self)
+        }
         
-        APIManager.getAPI(url: Constant.USER_DETAIL + strName,isFalg: false) { isSuccess, message, reponse in
-            self.arrHomeDataDetail = reponse
-    
-            DispatchQueue.main.async {
-                
-                self.arrCoreHomeDetail = DatabaseHelper.shareInstence.getData()
-    
-                if let url = URL(string: "\(self.arrHomeDataDetail[0]["avatar_url"] ?? "")" ) {
-                    self.imgProfile.af_setImage(withURL: url, placeholderImage: UIImage(named: "ic_profile"))
+        APIManager.sharedInstance.parseAPIKeyWithURLGET(String(format: Constant.USER_DETAIL + "\(strName)"), isFalg: false, showLoadingIndicator: true, ModelType: Home.self) { (response) in
+
+            print("adsadjsnfsjdfhhj",response)
+            switch response {
+            case .success(let data):
+        
+                self.arrHomeDataDetail = data
+                DispatchQueue.main.async {
+                    
+                    self.arrCoreHomeDetail = DatabaseHelper.shareInstence.getData()
+        
+                    if let url = URL(string: "\(self.arrHomeDataDetail?.avatarURL ?? "")" ) {
+                        if let data = try? Data(contentsOf: url)
+                        {
+                            let image: UIImage = UIImage(data: data) ?? UIImage()
+                            self.imgProfile.image = image
+                        }
+                    }
+                    
+                    self.txtNote.text = "\(self.arrCoreHomeDetail[self.index].notes ?? "write note")"
+                    
+                    if let name = self.arrHomeDataDetail?.name{
+                        self.lblName.text = " Name: " + "\(name)"
+                    }else{
+                        self.lblName.isHidden = true
+                    }
+                    
+                    if let company = self.arrHomeDataDetail?.company{
+                        self.lblComapny.text = " Company: " + "\(company)"
+                    }else{
+                        self.lblComapny.isHidden = true
+                    }
+                    
+                    if let following = self.arrHomeDataDetail?.following{
+                        self.lblFollowing.text = " Following: " + "\(following)"
+                    }else{
+                        self.lblFollowing.isHidden = true
+                    }
+                    
+                    if let blog = self.arrHomeDataDetail?.blog{
+                        self.lblBlog.text = " Blog: " + "\(blog)"
+                    }else{
+                        self.lblBlog.isHidden = true
+                    }
+                    
+                    if let followers = self.arrHomeDataDetail?.followers{
+                        self.lblFollowers.text = " Followers: " + "\(followers)"
+                    }else{
+                        self.lblFollowers.isHidden = true
+                    }
+        
+                    CustomLoader.sharedInstance.hideActivityIndicator()
                 }
                 
-                self.txtNote.text = "\(self.arrCoreHomeDetail[self.index].notes ?? "write note")"
-                
-                if let name = self.arrHomeDataDetail[0]["name"]{
-                    self.lblName.text = " Name: " + "\(name)"
-                }else{
-                    self.lblName.isHidden = true
-                }
-                
-                if let company = self.arrHomeDataDetail[0]["company"]{
-                    self.lblComapny.text = " Company: " + "\(company)"
-                }else{
-                    self.lblComapny.isHidden = true
-                }
-                
-                if let following = self.arrHomeDataDetail[0]["following"]{
-                    self.lblFollowing.text = " Following: " + "\(following)"
-                }else{
-                    self.lblFollowing.isHidden = true
-                }
-                
-                if let blog = self.arrHomeDataDetail[0]["blog"]{
-                    self.lblBlog.text = " Blog: " + "\(blog)"
-                }else{
-                    self.lblBlog.isHidden = true
-                }
-                
-                if let followers = self.arrHomeDataDetail[0]["followers"]{
-                    self.lblFollowers.text = " Followers: " + "\(followers)"
-                }else{
-                    self.lblFollowers.isHidden = true
-                }
-    
-                CustomLoader.sharedInstance.hideActivityIndicator()
+            case .failure(let error):
+                print(error.localizedDescription)
+                Utility.shared.showAlertWithBackAction(vc: self, strTitle: "Something went wrong!", StrMessage: error.localizedDescription, handler: { (value) in
+                })
+                break
             }
-            CustomLoader.sharedInstance.hideActivityIndicator()
         }
     }
     

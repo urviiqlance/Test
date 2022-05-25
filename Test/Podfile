@@ -6,9 +6,6 @@ target 'Test' do
   use_frameworks!
 
   # Pods for Test
-pod 'Alamofire', '~> 4.5'
-pod 'AlamofireImage', '~> 3.1'
-pod 'AlamofireObjectMapper'
 
 
 end

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AlamofireImage
 
 class HomeTblCell: UITableViewCell {
     
@@ -21,10 +20,10 @@ class HomeTblCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -35,7 +34,16 @@ class HomeTblCell: UITableViewCell {
         self.btnFile.isHidden = true
         
         if let url = URL(string: arr.avatar_url ?? "ic_profile") {
-            self.imgProfile.af_setImage(withURL: url, placeholderImage: UIImage(named: "ic_profile"))
+            
+            DispatchQueue.global().async {
+                // Fetch Image Data
+                if let data = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        // Create Image and Update Image View
+                        self.imgProfile.image = UIImage(data: data)
+                    }
+                }
+            }
         }
         
         self.lblUserName.text = arr.name

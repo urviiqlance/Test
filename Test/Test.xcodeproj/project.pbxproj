@@ -29,6 +29,7 @@
 		988B24BC28364E0D001908F5 /* TestUser+CoreDataClass copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B24BA28364E0D001908F5 /* TestUser+CoreDataClass copy.swift */; };
 		988B24BE28364E59001908F5 /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B24BD28364E59001908F5 /* DatabaseHelper.swift */; };
 		A2B880BD965CF479A55DB57D /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C08B553ED07E600FDDDAC6 /* Pods_Test.framework */; };
+		FFB49EF2283CF9030059D3B7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB49EF1283CF9030059D3B7 /* Home.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		988B24BD28364E59001908F5 /* DatabaseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
 		98C08B553ED07E600FDDDAC6 /* Pods_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19E306E9713AAB595A76CE8 /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
+		FFB49EF1283CF9030059D3B7 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 		981065CA28360B9600B6E5B9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FFB49EF1283CF9030059D3B7 /* Home.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,7 +214,6 @@
 				981065AA28360B6700B6E5B9 /* Sources */,
 				981065AB28360B6700B6E5B9 /* Frameworks */,
 				981065AC28360B6700B6E5B9 /* Resources */,
-				89DECCE7EF9D12645F25D179 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -270,23 +272,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		89DECCE7EF9D12645F25D179 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Test/Pods-Test-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Test/Pods-Test-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Test/Pods-Test-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8FB849AF8ED2FEF0CC2825A5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +305,7 @@
 				981065E128360C6400B6E5B9 /* HSUnderLineTextField.swift in Sources */,
 				981065DD28360C6400B6E5B9 /* Constant.swift in Sources */,
 				981065DF28360C6400B6E5B9 /* SweetAlert.swift in Sources */,
+				FFB49EF2283CF9030059D3B7 /* Home.swift in Sources */,
 				981065EA28360C8900B6E5B9 /* Utility.swift in Sources */,
 				981065E228360C6400B6E5B9 /* MaterialLoader.swift in Sources */,
 				981065D128360C2E00B6E5B9 /* Extensions.swift in Sources */,
@@ -480,7 +466,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JRN5W5EA66;
+				DEVELOPMENT_TEAM = LX6D23KTW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Test/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -489,6 +475,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -510,7 +497,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JRN5W5EA66;
+				DEVELOPMENT_TEAM = LX6D23KTW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Test/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -519,6 +506,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
